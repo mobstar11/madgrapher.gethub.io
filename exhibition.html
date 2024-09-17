@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exhibition - Photo Download Site</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="exhibition.html">Exhibition</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Exhibition</h1>
+        <p>Upload your images below and download them back.</p>
+
+        <input type="file" id="upload" accept="image/*">
+        <div id="gallery"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Photo Download Site</p>
+    </footer>
+
+    <script>
+        const uploadInput = document.getElementById('upload');
+        const gallery = document.getElementById('gallery');
+
+        uploadInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = file.name;
+
+                    const link = document.createElement('a');
+                    link.href = e.target.result;
+                    link.download = file.name;
+                    link.textContent = 'Download';
+
+                    const imgContainer = document.createElement('div');
+                    imgContainer.classList.add('img-container');
+                    imgContainer.appendChild(img);
+                    imgContainer.appendChild(link);
+
+                    gallery.appendChild(imgContainer);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
